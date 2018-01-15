@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AsyncTask</string>
+
+    <string name="txtV_Info">Información</string>
+    <string name="btn_Sort">Ordenar</string>
+    <string name="btn_Cancel">Cancelar</string>
+</resources>
