@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick_Sort(View v) {
         switch (v.getId()) {
-            case R.id.btn_Sort:
+            case R.id.btn_SortH:
                 // Primera opción: Obteniendo ANR, sin gestión por hilos
                 //bubbleSort(numbers);
                 //txtV_Info.setText("Operación terminada :)");
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 simpletask = new SimpleAsyncTask();
                 simpletask.execute();
                 break;
-            case R.id.btn_Cancel:
+            case R.id.btn_CancelH:
                 simpletask.cancel(true);
                 break;
         }

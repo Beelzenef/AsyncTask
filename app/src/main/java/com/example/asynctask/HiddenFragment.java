@@ -8,9 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Random;
+
+import static com.example.asynctask.HiddenActivity.*;
 
 public class HiddenFragment extends Fragment {
 
@@ -21,26 +24,22 @@ public class HiddenFragment extends Fragment {
 
     public static final String TAG = "fragment";
 
+    ProgressBarTask pbt;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
         generateNumbers();
-        ProgressBarTask pbt = new ProgressBarTask();
+        pbt = new ProgressBarTask();
         pbt.execute();
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            callback = (TaskCallback) activity;
-        }
-        catch (ClassCastException e)
-        {
-            Log.d("ERROR", "Errorcete");
-        }
+        callback = (TaskCallback) activity;
     }
 
     private void generateNumbers() {
@@ -53,11 +52,15 @@ public class HiddenFragment extends Fragment {
 
     }
 
+    public ProgressBarTask getTarea() {
+        return pbt;
+    }
+
     static interface TaskCallback {
 
         void onPreExecute();
         void onProgressUpdate(int i);
-        void onCancelled(int i);
+        void onCancelled();
         void onPostExecute();
 
     }
@@ -93,7 +96,20 @@ public class HiddenFragment extends Fragment {
         }
 
         @Override
+        protected void onCancelled(Void aVoid) {
+            super.onCancelled(aVoid);
+            if (callback != null) {
+                callback.onCancelled();
+            }
+        }
+
+        @Override
         protected Void doInBackground(Void... avoid) {
+            if (callback != null && !isCancelled())
+            {
+                for (int i = 0; i < 100; i++)
+                    callback.onProgressUpdate(i);
+            }
             return null;
         }
     }
